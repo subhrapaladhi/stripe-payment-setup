@@ -4,7 +4,7 @@ import Stripe from "stripe";
 import {v4 as uuid} from "uuid";
 
 const app: express.Application = express();
-const stripe = new Stripe("sk_test_51H1uk0BtWMWqSvhsTRvmM8BhXv2VzpWdCrdIlUlG1KQPgdzL1MkQBrPMqXx8pLHooWyKS1LksNsPtOVU6vZF9ltC00SdqycDNs",{
+const stripe = new Stripe(<string>process.env.STRIPE_SECRET_KEY,{
     apiVersion: "2020-03-02"
 })
 

@@ -8,7 +8,7 @@ const cors_1 = __importDefault(require("cors"));
 const stripe_1 = __importDefault(require("stripe"));
 const uuid_1 = require("uuid");
 const app = express_1.default();
-const stripe = new stripe_1.default("sk_test_51H1uk0BtWMWqSvhsTRvmM8BhXv2VzpWdCrdIlUlG1KQPgdzL1MkQBrPMqXx8pLHooWyKS1LksNsPtOVU6vZF9ltC00SdqycDNs", {
+const stripe = new stripe_1.default(process.env.STRIPE_SECRET_KEY, {
     apiVersion: "2020-03-02"
 });
 // MIDDLEWARES
