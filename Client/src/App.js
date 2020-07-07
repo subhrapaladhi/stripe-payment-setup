@@ -23,7 +23,6 @@ function App() {
       headers,
       body: JSON.stringify(body)
     }).then(response => {
-      console.log("Response: ", response)
       const {status} = response;
       console.log(status)
     }).catch(err => console.log(err))
@@ -46,6 +45,8 @@ function App() {
           token={makePayment}
           name="Buy react"
           amount={product.price*100}
+          shippingAddress
+          billingAddress
         >
           <button className="btn-large pink">Buy react at just {product.price}$</button>
         </StripeCheckout>
