@@ -1,3 +1,5 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import cors from "cors";
 import Stripe from "stripe";
@@ -7,7 +9,6 @@ const app: express.Application = express();
 const stripe = new Stripe(<string>process.env.STRIPE_SECRET_KEY,{
     apiVersion: "2020-03-02"
 })
-
 
 // MIDDLEWARES
 app.use(express.json());
@@ -20,10 +21,7 @@ app.get("/", (req, res) => {
 })
 
 app.post("/payment", (req,res) => {
-    const {product, token} = req.body;
-    console.log("product = ", product);
-    console.log("price = ", product.price );
-    
+    const {product, token} = req.body;    
     const idempotencyKey = uuid();
 
     return stripe.customers.create({
@@ -33,7 +31,7 @@ app.post("/payment", (req,res) => {
     .then(customer => {
         stripe.charges.create({
             amount: product.price * 100,
-            currency: 'usd',
+            currency: 'inr',
             customer: customer.id,
             receipt_email: <string>customer.email,
             description: product.name,
@@ -54,5 +52,5 @@ app.post("/payment", (req,res) => {
 })
 
 // START SERVER
-const PORT = process.env.PORT||3000;
+const PORT = process.env.PORT||3001;
 app.listen(PORT, () => console.log(`server started at port ${PORT}`))

@@ -3,6 +3,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const stripe_1 = __importDefault(require("stripe"));
@@ -20,8 +22,6 @@ app.get("/", (req, res) => {
 });
 app.post("/payment", (req, res) => {
     const { product, token } = req.body;
-    console.log("product = ", product);
-    console.log("price = ", product.price);
     const idempotencyKey = uuid_1.v4();
     return stripe.customers.create({
         email: token.email,
@@ -30,7 +30,7 @@ app.post("/payment", (req, res) => {
         .then(customer => {
         stripe.charges.create({
             amount: product.price * 100,
-            currency: 'usd',
+            currency: 'inr',
             customer: customer.id,
             receipt_email: customer.email,
             description: product.name,
@@ -50,5 +50,5 @@ app.post("/payment", (req, res) => {
     });
 });
 // START SERVER
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`server started at port ${PORT}`));
